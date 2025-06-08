@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import React from "react";
 import { useMainContext } from "~/context/mainContext";
 
@@ -5,7 +6,7 @@ const FeedLeftSideUserInfo = () => {
   const { user } = useMainContext();
   return (
     <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-      <a href="/profile" className="flex items-center gap-3 group">
+      <Link to="/profile" className="flex items-center gap-3 group">
         <img
           src={
             user?.profilePicture ||
@@ -22,7 +23,7 @@ const FeedLeftSideUserInfo = () => {
             @{user?.username}
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };

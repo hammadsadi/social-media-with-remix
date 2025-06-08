@@ -16,6 +16,7 @@
     "@remix-run/serve": "^2.16.8",
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
+    "date-fns": "^4.1.0",
     "isbot": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide": "^0.513.0",

@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { format } from "date-fns";
 import {
   ArrowLeft,
   Calendar,
@@ -11,6 +12,7 @@ import {
   Share2,
   Users,
 } from "lucide-react";
+import { useMainContext } from "~/context/mainContext";
 
 const UserProfile = () => {
   // Sample user data
@@ -47,18 +49,21 @@ const UserProfile = () => {
       },
     ],
   };
-
+  const { user: userInfo } = useMainContext();
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-2xl mx-auto px-4 py-3 flex items-center">
-          <button className="mr-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <Link
+            to="/feed"
+            className="mr-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
             <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-          </button>
+          </Link>
           <div>
             <h1 className="font-bold text-lg text-gray-800 dark:text-gray-200">
-              {user.name}
+              {userInfo?.name}
             </h1>
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {user.posts.length} posts
@@ -83,8 +88,11 @@ const UserProfile = () => {
           <div className="flex justify-between items-end -mt-16">
             <div className="w-32 h-32 rounded-full border-4 border-white dark:border-gray-900 bg-white dark:bg-gray-900 overflow-hidden">
               <img
-                src={user.avatar}
-                alt={user.name}
+                src={
+                  userInfo?.profilePicture ||
+                  "https://api.dicebear.com/7.x/avataaars/svg?seed=232"
+                }
+                alt={userInfo?.name}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -102,36 +110,44 @@ const UserProfile = () => {
           {/* User Info */}
           <div className="mt-4">
             <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-              {user.name}
+              {userInfo?.name}
             </h1>
-            <p className="text-gray-500 dark:text-gray-400">@{user.username}</p>
+            <p className="text-gray-500 dark:text-gray-400">
+              @{userInfo?.username}
+            </p>
 
-            <p className="mt-3 text-gray-800 dark:text-gray-200">{user.bio}</p>
+            <p className="mt-3 text-gray-800 dark:text-gray-200">
+              {userInfo?.bio}
+            </p>
 
             <div className="flex flex-wrap gap-y-1 mt-3 text-gray-500 dark:text-gray-400">
-              {user.location && (
+              {userInfo?.location && (
                 <div className="flex items-center mr-4">
                   <MapPin className="w-4 h-4 mr-1" />
                   <span className="text-sm">{user.location}</span>
                 </div>
               )}
-              {user.website && (
+              {userInfo?.website && (
                 <div className="flex items-center mr-4">
                   <LinkIcon className="w-4 h-4 mr-1" />
-                  <a
-                    href={`https://${user.website}`}
+                  <Link
+                    to={`https://${userInfo.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-primary-600 dark:text-primary-400 hover:underline"
                   >
-                    {user.website}
-                  </a>
+                    {userInfo.website}
+                  </Link>
                 </div>
               )}
               {user.joinDate && (
                 <div className="flex items-center">
                   <Calendar className="w-4 h-4 mr-1" />
-                  <span className="text-sm">{user.joinDate}</span>
+                  <span className="text-sm text-gray-500">
+                    {userInfo?.createdAt
+                      ? format(new Date(userInfo.createdAt), "MMMM d, yyyy")
+                      : "Date not available"}
+                  </span>
                 </div>
               )}
             </div>
