@@ -232,7 +232,7 @@ const HomeLayout = () => {
         {/* === Posts Feed (Scrollable) === */}
         <main className="max-w-2xl mx-auto w-full">
           {/* Create Post */}
-          <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-md my-3 border-gray-200 dark:border-gray-800 p-4">
             <div className="flex items-start gap-3">
               <img
                 src="https://randomuser.me/api/portraits/women/44.jpg"
@@ -289,9 +289,12 @@ const HomeLayout = () => {
           </div>
 
           {/* Posts */}
-          <div className="divide-y divide-gray-200 dark:divide-gray-800">
+          <div className="divide-y divide-gray-200 dark:divide-gray-800 space-y-3 ">
             {posts.map((post) => (
-              <article key={post.id} className="bg-white dark:bg-gray-900 p-4">
+              <article
+                key={post.id}
+                className="bg-white dark:bg-gray-900 p-4 rounded-md"
+              >
                 {/* Post Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-3">
