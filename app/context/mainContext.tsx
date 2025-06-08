@@ -16,6 +16,7 @@ export const MainContext = createContext<MainContextType>({
   user: null,
   handleLogout: () => {},
   fetchUser: () => {},
+  loading: true,
 });
 export const useMainContext = () => useContext(MainContext);
 
@@ -64,7 +65,7 @@ export const MainContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     fetchUser();
   }, []);
-  const data: MainContextType = { user, handleLogout, fetchUser };
+  const data: MainContextType = { user, loading, handleLogout, fetchUser };
 
   if (loading) {
     return <Loading />;

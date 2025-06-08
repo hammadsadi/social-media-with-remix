@@ -13,6 +13,7 @@ import { UserModel } from "~/models/User";
 import { JWTTokenGenerate } from "~/utils/JWTTokenGenerate";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useMainContext } from "~/context/mainContext";
 export const meta: MetaFunction = () => {
   return [
     { title: "Login | SocialApp" },
@@ -69,18 +70,34 @@ export default function Index() {
   const navigate = useNavigate();
   const isSubmitting = !(navigation.state === "idle");
   const actionData = useActionData<typeof action>();
+  const { fetchUser, user } = useMainContext();
+
+  // const getLoggedInUserInfo = async () => {
+  //    fetchUser();
+  // };
+  // // Fetch user data on component mount
+  // useEffect(()=>{
+
+  // }, [])
 
   useEffect(() => {
     if (actionData?.message) {
       // Set the token as a local storage item
       localStorage.setItem("token", actionData?.token);
       toast.success(actionData?.message);
-      navigate("/feed");
+      fetchUser();
     }
     if (actionData?.error) {
       toast.error(actionData?.error);
     }
   }, [actionData]);
+
+  // Redirect to feed page if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/feed");
+    }
+  }, [user]);
   return (
     <div className="min-h-screen w-full bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md m-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-800">

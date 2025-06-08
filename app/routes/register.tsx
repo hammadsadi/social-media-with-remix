@@ -13,6 +13,7 @@ import { UserModel } from "~/models/User";
 import { DatabaseConnect } from "~/utils/database";
 import bcrypt from "bcrypt";
 import { JWTTokenGenerate } from "~/utils/JWTTokenGenerate";
+import { useMainContext } from "~/context/mainContext";
 // Action
 export const action: ActionFunction = async ({ request }) => {
   //  Connect to the database and create a new user
@@ -74,18 +75,24 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const isSubmitting = !(navigation.state === "idle");
   const actionData = useActionData<typeof action>();
-
+  const { fetchUser, user } = useMainContext();
   useEffect(() => {
     if (actionData?.message) {
       // Set the token as a local storage item
       localStorage.setItem("token", actionData?.token);
       toast.success(actionData?.message);
-      navigate("/feed");
+      fetchUser();
     }
     if (actionData?.error) {
       toast.error(actionData?.error);
     }
   }, [actionData]);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/feed");
+    }
+  }, [user]);
 
   return (
     <div className="min-h-screen w-full bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">

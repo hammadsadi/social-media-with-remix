@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useNavigate } from "@remix-run/react";
 import {
   Menu,
   X,
@@ -17,11 +17,15 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import FeedLeftSideUserInfo from "~/components/FeedLeftSIde/FeedLeftSideUserInfo";
+import Loading from "~/components/Loading";
+import { useMainContext } from "~/context/mainContext";
 
 const HomeLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
+  const navigate = useNavigate();
+  const [uiLoading, setUiLoading] = useState(true);
+  const { user: userInfo, loading } = useMainContext();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
@@ -99,6 +103,20 @@ const HomeLayout = () => {
     { username: "tailwindcss", name: "Tailwind CSS" },
   ];
 
+  //  Protected route
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/");
+      setUiLoading(false);
+      return;
+    } else {
+      setUiLoading(false);
+    }
+  }, [userInfo]);
+  if (uiLoading || loading) {
+    return <Loading />;
+  }
   return (
     <div className="min-h-screen w-full bg-gray-50 dark:bg-gray-950">
       {/* Mobile overlay */}

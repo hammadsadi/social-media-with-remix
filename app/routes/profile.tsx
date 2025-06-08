@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { format } from "date-fns";
 import {
   ArrowLeft,
@@ -12,9 +12,15 @@ import {
   Share2,
   Users,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import Loading from "~/components/Loading";
 import { useMainContext } from "~/context/mainContext";
 
 const UserProfile = () => {
+  const navigate = useNavigate();
+  const [uiLoading, setUiLoading] = useState(true);
+  const { user: userInfo, loading } = useMainContext();
+
   // Sample user data
   const user = {
     name: "Jane Doe",
@@ -49,7 +55,21 @@ const UserProfile = () => {
       },
     ],
   };
-  const { user: userInfo } = useMainContext();
+
+  //  Protected route
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/");
+      setUiLoading(false);
+      return;
+    } else {
+      setUiLoading(false);
+    }
+  }, [userInfo]);
+  if (uiLoading || loading) {
+    return <Loading />;
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Header */}
