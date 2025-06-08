@@ -91,7 +91,7 @@ export default function Index() {
 
             <button
               type="submit"
-              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
+              className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 bg-white dark:bg-gray-900  border-gray-200 dark:border-gray-800"
             >
               Sign in
             </button>
