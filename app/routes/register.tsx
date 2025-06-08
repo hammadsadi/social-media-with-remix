@@ -44,12 +44,14 @@ export const action: ActionFunction = async ({ request }) => {
     if (checkUser) {
       return json({ error: "User already exists" }, { status: 400 });
     }
+    const imageUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`;
 
     const newUser = new UserModel({
       name,
       username,
       email,
       password: hashedPassword,
+      profilePicture: imageUrl,
       terms,
     });
     await newUser.save();

@@ -16,6 +16,7 @@ import {
   User,
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import FeedLeftSideUserInfo from "~/components/FeedLeftSIde/FeedLeftSideUserInfo";
 
 const HomeLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -188,23 +189,8 @@ const HomeLayout = () => {
           </nav>
 
           {/* User Profile (Bottom) */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-            <a href="/profile" className="flex items-center gap-3 group">
-              <img
-                src="https://randomuser.me/api/portraits/women/44.jpg"
-                alt="User profile"
-                className="w-8 h-8 rounded-full"
-              />
-              <div>
-                <div className="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400">
-                  Jane Doe
-                </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">
-                  @janedoe
-                </div>
-              </div>
-            </a>
-          </div>
+
+          <FeedLeftSideUserInfo />
         </div>
       </aside>
 
